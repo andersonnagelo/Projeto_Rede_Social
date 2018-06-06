@@ -90,19 +90,18 @@ module.exports.modificarPost = function(req, res){
 
 module.exports.usuarioDoPost = function(req, res){
     let id = req.params.id;
-    let promise = post.findById(id);
+    let promise = post.findById(id).populate('usuarioId').exec();
+
     promise.then(
-        function(Post){
-            let promise01 = usuario.findById(Post.usuarioId);
-            promise01.then(
+        // function(Post){
+        //     let promise01 = usuario.findById(Post.usuarioId);
+        //     promise01.then(
                 function(useres){
                     res.json(useres);
                 },
                 function(erro){
                     res.status(500).json(erro);
                 }
-            )
-        }
-    );
-}
+    )
+ }
 

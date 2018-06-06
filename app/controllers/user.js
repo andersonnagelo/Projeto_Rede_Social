@@ -47,7 +47,7 @@ module.exports.procurarUsuarioId = function(req,res){
 
 module.exports.deletarUsuario = function(req, res){
     let payload = tokenjson.decode(req.query.token);
-    let promise = Usuario.findByIdAndRemove(payload.userId);
+    let promise = Usuario.findByIdAndRemove(payload.usuarioId);
     promise.then(
         function (useres){
             res.status(201).json(useres);
@@ -60,12 +60,18 @@ module.exports.deletarUsuario = function(req, res){
 
 module.exports.modificarUsuario = function(req, res){
     let payload = tokenjson.decode(req.query.token);
-    req.body.senha = bcrypt.hashSync(req.body.senha, 10);
-    promise = Usuario.findByIdAndUpdate(payload.userId, req.body);
+    //req.body.senha = bcrypt.hashSync(req.body.senha, 10);
+    let user = {
+        nome: req.body.nome,
+        email: req.body.email,
+        senha: bcrypt.hashSync(req.body.senha, 10)
+    }
 
-    promise.then(
-        function(useres){
-            res.status(201).json(useres);
+    let promise = Usuario.findByIdAndUpdate(payload.usuarioId, {
+        $set:user
+    }).then(
+        function(user){
+            res.status(201).json(user);
         },
         function (erro){
             res.status(500).json(erro);

@@ -7,7 +7,7 @@ module.exports.logar = function(req,res){
         if (!bcrypt.compareSync(req.body.senha, user.senha)){
             falhar ();
         }else{
-            let token= tokenjson.sign ({user: user}, 'secret');
+            let token= tokenjson.sign ({usuarioId: user._id}, 'secret');
             res.status(200).json({
                 message: "Usuário Logado!",
                 token: token,

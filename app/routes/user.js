@@ -7,7 +7,7 @@ module.exports = function (app){
     app.use('/api/user/', auth.verificar);
     app.get('/api/user', controller.listarUsuarios);
     app.get ('/api/user/:id', controller.procurarUsuarioId);
-    app.get('/api/user/:id/posts', controller.postDoUsuario);
+    app.get('/api/user/posts', controller.postDoUsuario);
     app.put('/api/user/', controller.modificarUsuario);
-    app.delete('/api/user', controller.deletarUsuario);
+    app.delete('/api/user/:id', controller.deletarUsuario);
 }
